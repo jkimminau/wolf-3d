@@ -19,15 +19,16 @@
 
 int		main(int argc, char **argv)
 {
-	//t_fdf	*fdf;
+	t_wolf	*wolf;
 
 	(void)argv;
 	if (argc != 1)
 		ft_printf("usage: ./wolf3d \n");
-	/*fdf = init_fdf();
-	render(fdf);
-	mlx_loop_hook(fdf->mlx, loop_events, fdf);
-	mlx_hook(fdf->win, 2, 0, handle_keys, fdf);
-	mlx_loop(fdf->mlx);*/
+	wolf = init_wolf();
+	/*render(fdf);
+	mlx_loop_hook(fdf->mlx, loop_events, fdf);*/
+	mlx_hook(wolf->win, 2, 0, handle_keys, wolf);
+	mlx_hook(wolf->win, 17, 0, handle_exit, wolf);
+	mlx_loop(wolf->mlx);
 	return (0);
 }

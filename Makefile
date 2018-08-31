@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/08/31 01:00:58 by jkimmina          #+#    #+#              #
+#    Updated: 2018/08/31 01:42:57 by jkimmina         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = wolf3d
 
 CC = gcc 
@@ -5,8 +17,10 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
 SRC =		src/wolf3d.c	\
+			src/init.c		\
+			src/event.c		\
 
-HEADER_DIR =	.		\
+HEADER_DIR =	.			\
 
 OBJ = $(SRC:.c=.o)
 

@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/31 01:51:22 by jkimmina          #+#    #+#             */
+/*   Updated: 2018/08/31 02:05:11 by jkimmina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <fdf.h>
+#include <wolf3d.h>
 
 char		*next_num(char *line)
 {
@@ -68,7 +79,7 @@ void		read_row(t_fdf *fdf, int y, char *l)
 	free(tmp);
 }
 
-int			parse(char *filename, t_fdf *fdf)
+int			read_map(char *filename, char **map)
 {
 	int		y;
 	int		fd;

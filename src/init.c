@@ -1,28 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/31 01:03:37 by jkimmina          #+#    #+#             */
+/*   Updated: 2018/08/31 01:14:44 by jkimmina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <fdf.h>
+#include <wolf3d.h>
 
-void		free_all(t_fdf *fdf)
+void		free_all(t_wolf *wolf)
 {
-	mlx_destroy_window(fdf->mlx, fdf->win);
-	mlx_destroy_image(fdf->mlx, fdf->img->ptr);
-	free(fdf->img);
-	while (fdf->map->len)
-		free(fdf->map->points[--fdf->map->len]);
-	free(fdf->map->points);
-	free(fdf->map);
-	free(fdf->cam);
-	mlx_del(fdf->mlx);
-	free(fdf);
-}
-
-t_point		new_point(int x, int y, int z)
-{
-	t_point		point;
-
-	point.x = x;
-	point.y = y;
-	point.z = z;
-	return (point);
+	mlx_destroy_window(wolf->mlx, wolf->win);
+	mlx_destroy_image(wolf->mlx, wolf->img->ptr);
+	free(wolf->img);
+	mlx_del(wolf->mlx);
+	free(wolf);
 }
 
 t_img		*init_img(void *mlx)
@@ -39,23 +35,14 @@ t_img		*init_img(void *mlx)
 	return (img);
 }
 
-t_fdf		*init_fdf(void)
+t_wolf		*init_wolf(void)
 {
-	t_fdf	*fdf;
+	t_wolf	*wolf;
 
-	if (!(fdf = (t_fdf *)malloc(sizeof(t_fdf))))
+	if (!(wolf = (t_wolf *)malloc(sizeof(t_wolf))))
 		return (0);
-	fdf->mlx = mlx_init();
-	fdf->win = mlx_new_window(fdf->mlx, WID, LEN, "FDF");
-	fdf->img = init_img(fdf->mlx);
-	fdf->map = (t_map*)malloc(sizeof(t_map));
-	fdf->cam = (t_cam*)malloc(sizeof(t_cam));
-	fdf->cam->x = 0;
-	fdf->cam->y = 0;
-	fdf->map->len = 0;
-	fdf->map->wid = 0;
-	fdf->color = 0;
-	fdf->autorotate = 0;
-	fdf->zs = 10;
-	return (fdf);
+	wolf->mlx = mlx_init();
+	wolf->win = mlx_new_window(wolf->mlx, WID, LEN, "WOLF-3D");
+	wolf->img = init_img(wolf->mlx);
+	return (wolf);
 }
