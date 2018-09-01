@@ -16,9 +16,10 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC =		src/wolf3d.c	\
-			src/init.c		\
-			src/event.c		\
+SRC =		src/wolf3d.c		\
+		src/init.c		\
+		src/event.c		\
+		src/read.c		\
 
 HEADER_DIR =	.			\
 

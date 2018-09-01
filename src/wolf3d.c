@@ -21,14 +21,21 @@ int		main(int argc, char **argv)
 {
 	t_wolf	*wolf;
 
-	(void)argv;
-	if (argc != 1)
-		ft_printf("usage: ./wolf3d \n");
+	if (argc < 2)
+	{
+		ft_printf("usage: ./wolf3d [map] ..\n");
+		exit(EXIT_FAILURE);
+	}
 	wolf = init_wolf();
+	if (load_map(argv[1], wolf) == -1)
+	{
+		ft_printf("failed to load map\n");
+		exit(EXIT_FAILURE);
+	}
 	/*render(fdf);
 	mlx_loop_hook(fdf->mlx, loop_events, fdf);*/
-	mlx_hook(wolf->win, 2, 0, handle_keys, wolf);
-	mlx_hook(wolf->win, 17, 0, handle_exit, wolf);
+	mlx_hook(wolf->win, EVENT_KEY_PRESS, 0, handle_keys, wolf);
+	mlx_hook(wolf->win, EVENT_WINDOW_CLOSE, 0, handle_exit, wolf);
 	mlx_loop(wolf->mlx);
 	return (0);
 }

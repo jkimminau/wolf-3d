@@ -21,11 +21,17 @@ int		handle_exit(t_wolf *wolf)
 
 int		handle_keys(int key, t_wolf *wolf)
 {
-	if (key == 53)
+	if (key == KEY_ESC)
 	{
 		free_all(wolf);
 		exit(0);
 	}
+	if (key == KEY_LEFT)
+		wolf->player->dir -= 5;
+	if (key == KEY_RIGHT)
+		wolf->player->dir += 5;
+	(wolf->player->dir < 0) ? wolf->player->dir += 360 : (void)wolf;
+	(wolf->player->dir > 359) ? wolf->player->dir %= 360 : (void)wolf;
 	/*mlx_destroy_image(fdf->mlx, fdf->img->ptr);
 	free(fdf->img);
 	fdf->img = init_img(fdf->mlx);

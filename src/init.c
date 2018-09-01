@@ -41,8 +41,11 @@ t_wolf		*init_wolf(void)
 
 	if (!(wolf = (t_wolf *)malloc(sizeof(t_wolf))))
 		return (0);
-	wolf->mlx = mlx_init();
-	wolf->win = mlx_new_window(wolf->mlx, WID, LEN, "WOLF-3D");
-	wolf->img = init_img(wolf->mlx);
+	if (!(wolf->mlx = mlx_init()))
+		return (0);
+	if (!(wolf->win = mlx_new_window(wolf->mlx, WID, LEN, "WOLF-3D")))
+		return (0);
+	if (!(wolf->img = init_img(wolf->mlx)))
+		return (0);
 	return (wolf);
 }
