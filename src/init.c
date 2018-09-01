@@ -35,6 +35,18 @@ t_img		*init_img(void *mlx)
 	return (img);
 }
 
+t_player		*init_player(float x, float y)
+{
+	t_player	*p;
+
+	if (!(p = (t_player *)malloc(sizeof(t_player))))
+		return (0);
+	p->x = x;
+	p->y = y;
+	p->dir = 0;
+	return (p);
+}
+
 t_wolf		*init_wolf(void)
 {
 	t_wolf	*wolf;
@@ -47,5 +59,6 @@ t_wolf		*init_wolf(void)
 		return (0);
 	if (!(wolf->img = init_img(wolf->mlx)))
 		return (0);
+	wolf->player = 0;
 	return (wolf);
 }

@@ -50,7 +50,18 @@ int		load_map(char *filename, t_wolf *wolf)
 		return (-1);
 	y = 0;
 	while (get_next_line(fd, &l) > 0)
+	{
+		if (ft_strstr(l, "S"))
+		{
+			if (wolf->player)
+				return (-1);
+			printf("%f\n", (float)(ft_strstr(l, "S") - l));
+			wolf->player = init_player((float)(ft_strstr(l,"S") - l), (float)y);
+		}
 		wolf->map->map[y++] = l;
+	}
+	if (wolf->player == 0)
+		wolf->player = init_player(1.0f, 1.0f);
 	close(fd);
 	return (1);
 }

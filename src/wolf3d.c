@@ -32,6 +32,7 @@ int		main(int argc, char **argv)
 		ft_printf("failed to load map\n");
 		exit(EXIT_FAILURE);
 	}
+	ft_printf("x,y: %.2f, %.2f\n", wolf->player->x, wolf->player->y);
 	/*render(fdf);
 	mlx_loop_hook(fdf->mlx, loop_events, fdf);*/
 	mlx_hook(wolf->win, EVENT_KEY_PRESS, 0, handle_keys, wolf);

@@ -46,15 +46,14 @@ typedef struct		s_img
 typedef struct		s_map
 {
 	char		**map;
-	char		*text[4];
 	int		wid;
 	int		len;
 }			t_map;
 
 typedef struct		s_player
 {
-	int		x;
-	int		y;
+	float		x;
+	float		y;
 	int		dir;
 }			t_player;
 
@@ -63,6 +62,7 @@ typedef struct		s_wolf
 	void		*mlx;
 	void		*win;
 	t_img		*img;
+	t_img		*text[4];
 	t_map		*map;
 	t_player	*player;
 }			t_wolf;
@@ -76,13 +76,14 @@ typedef struct	s_thread
 
 void			free_all(t_wolf *wolf);
 t_img			*init_img(void *mlx);
+t_player		*init_player(float x, float y);
 t_wolf			*init_wolf(void);
 int			init_map(t_wolf *wolf, char *filename);
 int			load_map(char *filename, t_wolf *wolf);
 int			handle_exit(t_wolf *wolf);
 int			handle_keys(int key, t_wolf *wolf);
 void			img_pixel_put(t_img *img, int x, int y, int color);
-void			*draw(void *thread);
-//void			render(t_fdf *fdf);
+//void			*draw(void *thread);
+//void			render(t_wolf *wolf);
 
 #endif
