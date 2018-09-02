@@ -1,13 +1,14 @@
 
-#include <fdf.h>
+#include <wolf3d.h>
+#include <stdio.h>
 
 void			img_pixel_put(t_img *img, int x, int y, int color)
 {
-	if (x >= 0 && x < WID && y >= 0 && y < LEN)
-		*(int *)(img->data_addr + ((x + y * WID) * img->bpp)) = color;
+	if (x >= 0 && x < WIN_WID && y >= 0 && y < WIN_LEN)
+		*(int *)(img->data_addr + ((x + y * WIN_WID) * img->bpp)) = color;
 }
 
-void			draw_line(t_fdf *fdf, t_point p1, t_point p2)
+/*void			draw_line(t_fdf *fdf, t_point p1, t_point p2)
 {
 	double		d[3];
 	double		x;
@@ -30,38 +31,65 @@ void			draw_line(t_fdf *fdf, t_point p1, t_point p2)
 		y += (d[1] / inc);
 		z += (d[2] / inc);
 	}
-}
+}*/
 
-void			*draw(void *thread)
+void			draw_ray(t_wolf *wolf, t_vec dir)
 {
-	int			i;
-	int			j;
-	t_fdf			*fdf;
+	int		x;
+	int		y;
+	t_vec		len;
+	t_vec		delta;
+	t_vec		inc;
 
-	fdf= ((t_thread*)thread)->fdf;
-	i = ((t_thread*)thread)->i;
-	while (i < fdf->map->len)
+	x = wolf->player->pos.x;
+	y = wolf->player->pos.y;
+	delta.x = fabs(1.0 / dir.x);
+	delta.y = fabs(1.0 / dir.y);
+	inc.x = (dir.x < 0) ? -1 : 1;
+	len.x = delta.x * ((dir.x < 0) ? wolf->player->pos.x - x : (double)x + 1.0 - wolf->player->pos.x);
+	inc.y = (dir.y < 0) ? -1 : 1;
+	len.y = delta.y * ((dir.y < 0) ? wolf->player->pos.y - y : (double)y + 1.0 - wolf->player->pos.y);
+	while (wolf->map->map[y][x] != 'X')
 	{
-		j = 0;
-		while (j < fdf->map->wid)
+		printf("(%d, %d)\n", x, y);
+		if (len.x < len.y)
 		{
-			if (j < fdf->map->wid - 1)
-				draw_line(fdf, project_point(fdf, fdf->map->points[i][j]),
-					project_point(fdf, fdf->map->points[i][j + 1]));
-			if (i < fdf->map->len - 1)
-				draw_line(fdf, project_point(fdf, fdf->map->points[i][j]),
-					project_point(fdf, fdf->map->points[i + 1][j]));
-			j++;
+			len.x += delta.x;
+			x += inc.x;
 		}
-		i += THREADS;
+		else
+		{
+			len.y += delta.y;
+			y += inc.y;
+		}
 	}
-	return (NULL);
+	printf("ray to (%f, %f) with wall at (%d, %d)\n", dir.x, dir.y, x, y);
 }
 
-void			render(t_fdf *fdf)
+void			draw(t_wolf *wolf)
+{
+	int		x;
+	double		camera_r;
+	t_vec		dir;
+
+	x = 0;
+	while (x < WIN_WID)
+	{
+		ft_printf("x = %d\t", x);
+		camera_r = 2.0 * x / WIN_WID - 1;
+		dir.x = wolf->player->dir.x + wolf->player->plane.x * camera_r;
+		dir.y = wolf->player->dir.y + wolf->player->plane.y * camera_r;
+		draw_ray(wolf, dir);
+		x++;
+	}
+	mlx_clear_window(wolf->mlx, wolf->win);
+	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img->ptr, 0, 0);
+}
+
+/*void			render(t_fdf *fdf)
 {
 	t_thread	list[THREADS];
-	int			i;
+	int		i;
 
 	i = 0;
 	while (i < THREADS)
@@ -76,4 +104,4 @@ void			render(t_fdf *fdf)
 		pthread_join(list[i++].tid, NULL);
 	mlx_clear_window(fdf->mlx, fdf->win);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->ptr, 0, 0);
-}
+}*/

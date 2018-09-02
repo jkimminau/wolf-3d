@@ -13,8 +13,8 @@
 #ifndef WOLF_H
 # define WOLF_H
 
-# define WID 1000
-# define LEN 800
+# define WIN_WID 1000
+# define WIN_LEN 800
 # define THREADS 8
 # define EVENT_KEY_PRESS 2
 # define EVENT_WINDOW_CLOSE 17
@@ -43,18 +43,25 @@ typedef struct		s_img
 	int		endian;
 }			t_img;
 
+typedef struct		s_vec
+{
+	double		x;
+	double		y;
+}			t_vec;
+
 typedef struct		s_map
 {
 	char		**map;
 	int		wid;
 	int		len;
+	t_vec		exit;
 }			t_map;
 
 typedef struct		s_player
 {
-	float		x;
-	float		y;
-	int		dir;
+	t_vec		pos;
+	t_vec		dir;
+	t_vec		plane;
 }			t_player;
 
 typedef struct		s_wolf
@@ -64,6 +71,9 @@ typedef struct		s_wolf
 	t_img		*img;
 	t_img		*text[4];
 	t_map		*map;
+	int		current_level;
+	int		max_levels;
+	char		**levels;
 	t_player	*player;
 }			t_wolf;
 
@@ -77,12 +87,14 @@ typedef struct	s_thread
 void			free_all(t_wolf *wolf);
 t_img			*init_img(void *mlx);
 t_player		*init_player(float x, float y);
-t_wolf			*init_wolf(void);
+t_wolf			*init_wolf(int ac, char **av);
+void			free_map(t_map *map);
 int			init_map(t_wolf *wolf, char *filename);
 int			load_map(char *filename, t_wolf *wolf);
 int			handle_exit(t_wolf *wolf);
 int			handle_keys(int key, t_wolf *wolf);
 void			img_pixel_put(t_img *img, int x, int y, int color);
+void			draw(t_wolf *wolf);
 //void			*draw(void *thread);
 //void			render(t_wolf *wolf);
 

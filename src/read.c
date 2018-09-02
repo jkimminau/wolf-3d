@@ -12,6 +12,18 @@
 
 #include <wolf3d.h>
 
+void		free_map(t_map *map)
+{
+	int		i;
+
+	i = 0;
+	while (i < map->len)
+		free(map->map[i++]);
+	free(map->map);
+	free(map);
+	map = 0;
+}
+
 int		init_map(t_wolf *wolf, char *filename)
 {
 	int		fd;
@@ -19,6 +31,8 @@ int		init_map(t_wolf *wolf, char *filename)
 
 	wolf->map->len = 0;
 	wolf->map->wid = 0;
+	wolf->map->exit.x = -1;
+	wolf->map->exit.y = -1;
 	if ((fd = open(filename, O_RDONLY)) == -1)
 		return (-1);
 	while (get_next_line(fd, &line) > 0)
@@ -55,11 +69,19 @@ int		load_map(char *filename, t_wolf *wolf)
 		{
 			if (wolf->player)
 				return (-1);
-			printf("%f\n", (float)(ft_strstr(l, "S") - l));
 			wolf->player = init_player((float)(ft_strstr(l,"S") - l), (float)y);
+		}
+		if (ft_strstr(l, "E"))
+		{
+			if (wolf->map->exit.x != -1 || wolf->map->exit.y != -1)
+				return (-1);
+			wolf->map->exit.x = (float)(ft_strstr(l,"S") - l);
+			wolf->map->exit.y = (float)y;
 		}
 		wolf->map->map[y++] = l;
 	}
+	if (wolf->map->exit.x == -1 || wolf->map->exit.y == -1)
+		return (-1);
 	if (wolf->player == 0)
 		wolf->player = init_player(1.0f, 1.0f);
 	close(fd);

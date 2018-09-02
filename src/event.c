@@ -26,12 +26,22 @@ int		handle_keys(int key, t_wolf *wolf)
 		free_all(wolf);
 		exit(0);
 	}
-	if (key == KEY_LEFT)
-		wolf->player->dir -= 5;
-	if (key == KEY_RIGHT)
-		wolf->player->dir += 5;
-	(wolf->player->dir < 0) ? wolf->player->dir += 360 : (void)wolf;
-	(wolf->player->dir > 359) ? wolf->player->dir %= 360 : (void)wolf;
+	if (sqrt(pow(wolf->map->exit.x - wolf->player->pos.x, 2) + pow(wolf->map->exit.y - wolf->player->pos.y, 2)) < 1.0)
+	{
+		wolf->current_level++;
+		if (wolf->current_level > wolf->max_levels)
+		{
+			free_all(wolf);
+			exit(0);
+		}
+		free_map(wolf->map);
+		free(wolf->player);
+		load_map(wolf->levels[wolf->current_level], wolf);
+	}
+	//if (key == KEY_LEFT)
+	//	wolf->player->dir -= 5;
+	//if (key == KEY_RIGHT)
+	//	wolf->player->dir += 5;
 	/*mlx_destroy_image(fdf->mlx, fdf->img->ptr);
 	free(fdf->img);
 	fdf->img = init_img(fdf->mlx);

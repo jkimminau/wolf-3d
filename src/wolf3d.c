@@ -17,22 +17,23 @@
 	return (0);
 }*/
 
-int		main(int argc, char **argv)
+int		main(int ac, char **av)
 {
 	t_wolf	*wolf;
 
-	if (argc < 2)
+	if (ac < 2)
 	{
 		ft_printf("usage: ./wolf3d [map] ..\n");
 		exit(EXIT_FAILURE);
 	}
-	wolf = init_wolf();
-	if (load_map(argv[1], wolf) == -1)
+	wolf = init_wolf(ac, av);
+	if (load_map(av[1], wolf) == -1)
 	{
 		ft_printf("failed to load map\n");
 		exit(EXIT_FAILURE);
 	}
-	ft_printf("x,y: %.2f, %.2f\n", wolf->player->x, wolf->player->y);
+	draw(wolf);
+	//ft_printf("x,y: %.2f, %.2f\n", wolf->player->pos.x, wolf->player->pos.y);
 	/*render(fdf);
 	mlx_loop_hook(fdf->mlx, loop_events, fdf);*/
 	mlx_hook(wolf->win, EVENT_KEY_PRESS, 0, handle_keys, wolf);

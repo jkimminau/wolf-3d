@@ -27,7 +27,7 @@ t_img		*init_img(void *mlx)
 
 	if (!(img = (t_img *)malloc(sizeof(t_img))))
 		return (0);
-	if (!(img->ptr = mlx_new_image(mlx, WID, LEN)))
+	if (!(img->ptr = mlx_new_image(mlx, WIN_WID, WIN_LEN)))
 		return (0);
 	img->data_addr = mlx_get_data_addr(img->ptr, &img->bpp,
 			&img->line_size, &img->endian);
@@ -41,13 +41,16 @@ t_player		*init_player(float x, float y)
 
 	if (!(p = (t_player *)malloc(sizeof(t_player))))
 		return (0);
-	p->x = x;
-	p->y = y;
-	p->dir = 0;
+	p->pos.x = x;
+	p->pos.y = y;
+	p->dir.x = 1;
+	p->dir.y = 0;
+	p->plane.x = 0;
+	p->plane.y = 0.66;
 	return (p);
 }
 
-t_wolf		*init_wolf(void)
+t_wolf		*init_wolf(int ac, char **av)
 {
 	t_wolf	*wolf;
 
@@ -55,10 +58,13 @@ t_wolf		*init_wolf(void)
 		return (0);
 	if (!(wolf->mlx = mlx_init()))
 		return (0);
-	if (!(wolf->win = mlx_new_window(wolf->mlx, WID, LEN, "WOLF-3D")))
+	if (!(wolf->win = mlx_new_window(wolf->mlx, WIN_WID, WIN_LEN, "WOLF-3D")))
 		return (0);
 	if (!(wolf->img = init_img(wolf->mlx)))
 		return (0);
 	wolf->player = 0;
+	wolf->current_level = 0;
+	wolf->max_levels = ac - 1;
+	wolf->levels = av + 1;
 	return (wolf);
 }
