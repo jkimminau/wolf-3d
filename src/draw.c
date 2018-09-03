@@ -33,13 +33,17 @@ void			img_pixel_put(t_img *img, int x, int y, int color)
 	}
 }*/
 
-void			draw_ray(t_wolf *wolf, t_vec dir)
+void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 {
 	int		x;
 	int		y;
+	int		side;
 	t_vec		len;
 	t_vec		delta;
 	t_vec		inc;
+	double		dist;
+	int			wall_height;
+	int			line_y;
 
 	x = wolf->player->pos.x;
 	y = wolf->player->pos.y;
@@ -51,35 +55,52 @@ void			draw_ray(t_wolf *wolf, t_vec dir)
 	len.y = delta.y * ((dir.y < 0) ? wolf->player->pos.y - y : (double)y + 1.0 - wolf->player->pos.y);
 	while (wolf->map->map[y][x] != 'X')
 	{
-		printf("(%d, %d)\n", x, y);
+		//printf("(%f, %f)\n", len.x, len.y);
 		if (len.x < len.y)
 		{
 			len.x += delta.x;
 			x += inc.x;
+			side = 0;
 		}
 		else
 		{
 			len.y += delta.y;
 			y += inc.y;
+			side = 1;
 		}
 	}
-	printf("ray to (%f, %f) with wall at (%d, %d)\n", dir.x, dir.y, x, y);
+	if (!side)
+		dist = x - (wolf->player->pos.x + (1 - inc.x) / 2) / dir.x;
+	else
+		dist = y - (wolf->player->pos.y + (1 - inc.y) / 2) / dir.y;
+	//printf("dist = %f\n", dist);
+	wall_height = WIN_LEN / dist;
+	line_y = (WIN_LEN / 2) - (wall_height / 2);
+	line_y = (line_y < 0) ? 0 : line_y;
+	while (line_y < WIN_LEN)
+	{
+		if (line_y < wall_height / 2 + WIN_LEN / 2)
+			img_pixel_put(wolf->img, wx, line_y, 0xFF / (side + 1));
+		else
+			img_pixel_put(wolf->img, wx, line_y, 0xFF00);
+		line_y++;
+	}
 }
 
 void			draw(t_wolf *wolf)
 {
-	int		x;
+	int			x;
 	double		camera_r;
 	t_vec		dir;
 
 	x = 0;
 	while (x < WIN_WID)
 	{
-		ft_printf("x = %d\t", x);
+		//ft_printf("x = %d\t", x);
 		camera_r = 2.0 * x / WIN_WID - 1;
 		dir.x = wolf->player->dir.x + wolf->player->plane.x * camera_r;
 		dir.y = wolf->player->dir.y + wolf->player->plane.y * camera_r;
-		draw_ray(wolf, dir);
+		draw_ray(wolf, dir, x);
 		x++;
 	}
 	mlx_clear_window(wolf->mlx, wolf->win);
