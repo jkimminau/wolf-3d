@@ -55,7 +55,7 @@ void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 	len.y = delta.y * ((dir.y < 0) ? wolf->player->pos.y - y : (double)y + 1.0 - wolf->player->pos.y);
 	while (wolf->map->map[y][x] != 'X')
 	{
-		//printf("(%f, %f)\n", len.x, len.y);
+		printf("(%f, %f)\n", len.x, len.y);
 		if (len.x < len.y)
 		{
 			len.x += delta.x;
@@ -96,7 +96,7 @@ void			draw(t_wolf *wolf)
 	x = 0;
 	while (x < WIN_WID)
 	{
-		//ft_printf("x = %d\t", x);
+		ft_printf("x = %d\t", x);
 		camera_r = 2.0 * x / WIN_WID - 1;
 		dir.x = wolf->player->dir.x + wolf->player->plane.x * camera_r;
 		dir.y = wolf->player->dir.y + wolf->player->plane.y * camera_r;
