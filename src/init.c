@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:03:37 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/03 18:03:35 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/04 01:33:48 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,20 @@ t_img		*init_img(void *mlx)
 	if (!(img = (t_img *)malloc(sizeof(t_img))))
 		return (0);
 	if (!(img->ptr = mlx_new_image(mlx, WIN_WID, WIN_LEN)))
+		return (0);
+	img->data_addr = mlx_get_data_addr(img->ptr, &img->bpp,
+			&img->line_size, &img->endian);
+	img->bpp /= 8;
+	return (img);
+}
+
+t_img		*init_xpm_img(void *mlx, char *filename)
+{
+	t_img	*img;
+
+	if (!(img = (t_img *)malloc(sizeof(t_img))))
+		return (0);
+	if (!(img->ptr = mlx_xpm_file_to_image(mlx, filename, &img->wid, &img->len)))
 		return (0);
 	img->data_addr = mlx_get_data_addr(img->ptr, &img->bpp,
 			&img->line_size, &img->endian);
@@ -61,6 +75,8 @@ t_wolf		*init_wolf(int ac, char **av)
 	if (!(wolf->win = mlx_new_window(wolf->mlx, WIN_WID, WIN_LEN, "WOLF-3D")))
 		return (0);
 	if (!(wolf->img = init_img(wolf->mlx)))
+		return (0);
+	if (!(wolf->text = init_xpm_img(wolf->mlx, "./textures/smooth.xpm")))
 		return (0);
 	wolf->player = 0;
 	wolf->current_level = 0;

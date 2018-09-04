@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:01:05 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/03 20:34:54 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/04 00:37:14 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct		s_img
 	int		bpp;
 	int		line_size;
 	int		endian;
+	int		wid;
+	int		len;
 }			t_img;
 
 typedef struct		s_vec
@@ -70,7 +72,7 @@ typedef struct		s_wolf
 	void		*mlx;
 	void		*win;
 	t_img		*img;
-	t_img		*text[4];
+	t_img		*text;
 	t_map		*map;
 	int		current_level;
 	int		max_levels;
