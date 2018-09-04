@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:01:05 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/08/31 02:01:36 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/03 20:34:54 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define KEY_DOWN 125
 # define KEY_LEFT 123
 # define KEY_RIGHT 124
+# define ROT_SPEED 3 * M_PI / 180
 
 # include <stdlib.h>
 # include <math.h>
