@@ -6,7 +6,7 @@
 #    By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/31 01:00:58 by jkimmina          #+#    #+#              #
-#    Updated: 2018/09/04 18:48:19 by jkimmina         ###   ########.fr        #
+#    Updated: 2018/09/04 23:12:15 by jkimmina         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC =		src/wolf3d.c	\
 			src/init.c		\
 			src/event.c		\
 			src/read.c		\
+			src/ray.c		\
 			src/draw.c		\
 			src/move.c		\
 

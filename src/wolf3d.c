@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:36:15 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/04 19:34:38 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/05 00:52:40 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		main(int ac, char **av)
 		ft_printf("failed to load map\n");
 		exit(EXIT_FAILURE);
 	}
-	draw(wolf);
+	render(wolf);
 	mlx_hook(wolf->win, EVENT_KEY_PRESS, 0, handle_keys, wolf);
 	mlx_hook(wolf->win, EVENT_WINDOW_CLOSE, 0, handle_exit, wolf);
 	mlx_loop(wolf->mlx);

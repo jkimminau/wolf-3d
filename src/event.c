@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:15:23 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/04 19:22:25 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/05 00:52:52 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ int		handle_keys(int key, t_wolf *wolf)
 	mlx_destroy_image(wolf->mlx, wolf->img->ptr);
 	free(wolf->img);
 	wolf->img = init_img(wolf->mlx);
-	draw(wolf);
+	render(wolf);
 	return (0);
 }

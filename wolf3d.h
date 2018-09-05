@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:34:04 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/04 19:02:49 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/05 00:58:01 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,18 @@ typedef struct		s_vec
 	double			y;
 }					t_vec;
 
+typedef struct		s_ray
+{
+	int				x;
+	int				y;
+	int				side;
+	t_vec			len;
+	t_vec			delta;
+	t_vec			inc;
+	double			dist;
+	int				wall_height;
+}					t_ray;
+
 typedef struct		s_map
 {
 	char			**map;
@@ -103,6 +115,8 @@ void				rotate(int d, t_wolf *wolf);
 int					handle_exit(t_wolf *wolf);
 int					handle_keys(int key, t_wolf *wolf);
 void				img_pixel_put(t_img *img, int x, int y, int color);
-void				draw(t_wolf *wolf);
+void				draw_ray(t_wolf *wolf, t_vec dir, int wx);
+void				*draw_thread(void *arg);
+void				render(t_wolf *wolf);
 
 #endif
