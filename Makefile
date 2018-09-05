@@ -6,7 +6,7 @@
 #    By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/31 01:00:58 by jkimmina          #+#    #+#              #
-#    Updated: 2018/08/31 01:42:57 by jkimmina         ###   ########.fr        #
+#    Updated: 2018/09/04 18:48:19 by jkimmina         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,12 @@ CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
-SRC =		src/wolf3d.c		\
-		src/init.c		\
-		src/event.c		\
-		src/read.c		\
-		src/draw.c		\
+SRC =		src/wolf3d.c	\
+			src/init.c		\
+			src/event.c		\
+			src/read.c		\
+			src/draw.c		\
+			src/move.c		\
 
 HEADER_DIR =	.			\
 

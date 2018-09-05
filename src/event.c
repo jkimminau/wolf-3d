@@ -6,78 +6,45 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:15:23 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/04 01:01:42 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/04 19:22:25 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <wolf3d.h>
 
+int		loop_events(t_wolf *wolf)
+{
+	(void)wolf;
+	return (0);
+}
+
 int		handle_exit(t_wolf *wolf)
 {
 	free_all(wolf);
-	exit(0);
+	exit(EXIT_SUCCESS);
 	return (0);
 }
 
 int		handle_keys(int key, t_wolf *wolf)
 {
-	t_vec	old;
-
 	if (key == KEY_ESC)
+		handle_exit(wolf);
+	else if (key == KEY_UP || key == KEY_DOWN || key == KEY_W || key == KEY_S)
+		move((key == KEY_UP || key == KEY_W) ? 1 : -1, wolf);
+	else if (key == KEY_RIGHT || key == KEY_LEFT)
+		rotate((key == KEY_RIGHT) ? 1 : -1, wolf);
+	if (0)
 	{
-		free_all(wolf);
-		exit(0);
-	}
-	else if (key == KEY_UP)
-	{
-		if (wolf->map->map[(int)wolf->player->pos.y][(int)(wolf->player->pos.x + wolf->player->dir.x)] == ' ')
-			wolf->player->pos.x += wolf->player->dir.x * 0.25;
-		if (wolf->map->map[(int)(wolf->player->pos.y + wolf->player->dir.y)][(int)wolf->player->pos.x] == ' ')
-			wolf->player->pos.y += wolf->player->dir.y * 0.25;
-	}
-	else if (key == KEY_DOWN)
-	{
-		if (wolf->map->map[(int)wolf->player->pos.y][(int)(wolf->player->pos.x - wolf->player->dir.x)] == ' ')
-			wolf->player->pos.x -= wolf->player->dir.x * 0.25;
-		if (wolf->map->map[(int)(wolf->player->pos.y - wolf->player->dir.y)][(int)wolf->player->pos.x] == ' ')
-			wolf->player->pos.y -= wolf->player->dir.y * 0.25;
-	}
-	if (key == KEY_RIGHT)
-	{
-		old = wolf->player->dir;
-		wolf->player->dir.x = old.x * cos(ROT_SPEED) - old.y * sin(ROT_SPEED);
-		wolf->player->dir.y = old.x * sin(ROT_SPEED) + old.y * cos(ROT_SPEED);
-		old = wolf->player->plane;
-		wolf->player->plane.x = old.x * cos(ROT_SPEED) - old.y * sin(ROT_SPEED);
-		wolf->player->plane.y = old.x * sin(ROT_SPEED) + old.y * cos(ROT_SPEED);
-	}
-	if (key == KEY_LEFT)
-	{
-		old = wolf->player->dir;
-		wolf->player->dir.x = old.x * cos(-ROT_SPEED) - old.y * sin(-ROT_SPEED);
-		wolf->player->dir.y = old.x * sin(-ROT_SPEED) + old.y * cos(-ROT_SPEED);
-		old = wolf->player->plane;
-		wolf->player->plane.x = old.x * cos(-ROT_SPEED) - old.y * sin(-ROT_SPEED);
-		wolf->player->plane.y = old.x * sin(-ROT_SPEED) + old.y * cos(-ROT_SPEED);
-	}
-	/*if (sqrt(pow(wolf->map->exit.x - wolf->player->pos.x, 2) + pow(wolf->map->exit.y - wolf->player->pos.y, 2)) < 1.0)
-	{
-		printf("wtf\n");
 		wolf->current_level++;
 		if (wolf->current_level > wolf->max_levels)
-		{
-			free_all(wolf);
-			exit(0);
-		}
+			handle_exit(wolf);
 		free_map(wolf->map);
 		free(wolf->player);
 		load_map(wolf->levels[wolf->current_level], wolf);
-	}*/
+	}
 	mlx_destroy_image(wolf->mlx, wolf->img->ptr);
 	free(wolf->img);
 	wolf->img = init_img(wolf->mlx);
 	draw(wolf);
-	//if (key == KEY_LEFT)
-	//	wolf->player->dir -= 5;
 	return (0);
 }

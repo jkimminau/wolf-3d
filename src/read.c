@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:51:22 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/08/31 02:05:11 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/04 18:51:22 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int		load_map(char *filename, t_wolf *wolf)
 	int		y;
 	int		fd;
 	char		*l;
+	char		*tmp;
 
 	if (!(wolf->map = (t_map *)malloc(sizeof(t_map))))
 		return (-1);
@@ -65,11 +66,12 @@ int		load_map(char *filename, t_wolf *wolf)
 	y = 0;
 	while (get_next_line(fd, &l) > 0)
 	{
-		if (ft_strstr(l, "S"))
+		if ((tmp = ft_strstr(l, "S")))
 		{
 			if (wolf->player)
 				return (-1);
 			wolf->player = init_player((float)(ft_strstr(l,"S") - l), (float)y);
+			*tmp = ' ';
 		}
 		if (ft_strstr(l, "E"))
 		{

@@ -8,31 +8,6 @@ void			img_pixel_put(t_img *img, int x, int y, int color)
 		*(int *)(img->data_addr + ((x + y * WIN_WID) * img->bpp)) = color;
 }
 
-/*void			draw_line(t_fdf *fdf, t_point p1, t_point p2)
-{
-	double		d[3];
-	double		x;
-	double		y;
-	double		z;
-	double		inc;
-
-	d[0] = (p2.x - p1.x);
-	d[1] = (p2.y - p1.y);
-	d[2] = (p2.z - p1.z);
-	inc = (fabs(d[0]) > fabs(d[1])) ? fabs(d[0]) : fabs(d[1]);
-	x = p1.x;
-	y = p1.y;
-	z = p1.z;
-	while (fabs(x - p2.x) >= 1 || fabs(y - p2.y) >= 1)
-	{
-		img_pixel_put(fdf->img, (int)x, (int)y,
-			color_select(fdf->color, z * 60));
-		x += (d[0] / inc);
-		y += (d[1] / inc);
-		z += (d[2] / inc);
-	}
-}*/
-
 void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 {
 	int		x;
@@ -44,6 +19,7 @@ void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 	double		dist;
 	int			wall_height;
 	int			line_y;
+	int			color;
 
 	x = (int)wolf->player->pos.x;
 	y = (int)wolf->player->pos.y;
@@ -82,12 +58,21 @@ void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 			double	text_x;
 			int		text_y;
 			
-			text_x = ((side) ? x + dist * dir.x : y + dist * dir.y);
+			text_x = ((side) ? wolf->player->pos.x + dist * dir.x : wolf->player->pos.y + dist * dir.y);
+			//if (side)
+			//	printf("%d, %f, %f, %f\n", x, dist, dir.x, text_x);
 			text_x = (int)((text_x - floor(text_x)) * wolf->text->wid);
 			text_x = (!side && dir.x > 0) ? wolf->text->wid - text_x - 1 : text_x;
 			text_x = (side && dir.y < 0) ? wolf->text->wid - text_x - 1 : text_x;
 			text_y = (int)(((double)line_y - (WIN_LEN - wall_height) / 2) / wall_height * wolf->text->len);
-			img_pixel_put(wolf->img, wx, line_y, *(int *)(wolf->text->data_addr + (((int)text_x + text_y * wolf->text->wid) * wolf->text->bpp)));
+			color = *(int *)(wolf->text->data_addr + (((int)text_x + text_y * wolf->text->wid) * wolf->text->bpp));
+			if (side)
+			{
+				color = color - (color % 256) / 2;
+				color = color - ((((color >> 8) % 256) / 2) << 8);
+				color = color - (((color >> 16) / 2) << 16);
+			}
+			img_pixel_put(wolf->img, wx, line_y, color);
 		}
 		else
 			img_pixel_put(wolf->img, wx, line_y, 0xd86c45);

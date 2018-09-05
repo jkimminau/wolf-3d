@@ -1,21 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   wolf3d.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/04 18:36:15 by jkimmina          #+#    #+#             */
+/*   Updated: 2018/09/04 19:34:38 by jkimmina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <wolf3d.h>
-
-/*int		loop_events(t_fdf *fdf)
-{
-	if (fdf->autorotate)
-		fdf->cam->x += 2;
-	fdf->cam->x = (fdf->cam->x > 359) ? fdf->cam->x % 360 : fdf->cam->x;
-	fdf->cam->x += (fdf->cam->x < 0) ? 360 : 0;
-	fdf->cam->y = (fdf->cam->y > 359) ? fdf->cam->y % 360 : fdf->cam->y;
-	fdf->cam->y += (fdf->cam->y < 0) ? 360 : 0;
-	//fdf->color = (fdf->color > 1536) ? 0 : fdf->color + 1;
-	mlx_destroy_image(fdf->mlx, fdf->img->ptr);
-	free(fdf->img);
-	fdf->img = init_img(fdf->mlx);
-	render(fdf);
-	return (0);
-}*/
 
 int		main(int ac, char **av)
 {
@@ -33,9 +28,6 @@ int		main(int ac, char **av)
 		exit(EXIT_FAILURE);
 	}
 	draw(wolf);
-	//ft_printf("x,y: %.2f, %.2f\n", wolf->player->pos.x, wolf->player->pos.y);
-	/*render(fdf);
-	mlx_loop_hook(fdf->mlx, loop_events, fdf);*/
 	mlx_hook(wolf->win, EVENT_KEY_PRESS, 0, handle_keys, wolf);
 	mlx_hook(wolf->win, EVENT_WINDOW_CLOSE, 0, handle_exit, wolf);
 	mlx_loop(wolf->mlx);

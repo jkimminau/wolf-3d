@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:03:37 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/04 01:33:48 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/04 18:37:56 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ t_img		*init_xpm_img(void *mlx, char *filename)
 
 	if (!(img = (t_img *)malloc(sizeof(t_img))))
 		return (0);
-	if (!(img->ptr = mlx_xpm_file_to_image(mlx, filename, &img->wid, &img->len)))
+	if (!(img->ptr = mlx_xpm_file_to_image(mlx,
+			filename, &img->wid, &img->len)))
 		return (0);
 	img->data_addr = mlx_get_data_addr(img->ptr, &img->bpp,
 			&img->line_size, &img->endian);
@@ -49,7 +50,7 @@ t_img		*init_xpm_img(void *mlx, char *filename)
 	return (img);
 }
 
-t_player		*init_player(float x, float y)
+t_player	*init_player(float x, float y)
 {
 	t_player	*p;
 
