@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/04 20:12:37 by jkimmina          #+#    #+#             */
+/*   Updated: 2018/09/04 20:37:17 by jkimmina         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <wolf3d.h>
-#include <stdio.h>
 
 void			img_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -10,9 +20,9 @@ void			img_pixel_put(t_img *img, int x, int y, int color)
 
 void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 {
-	int		x;
-	int		y;
-	int		side;
+	int			x;
+	int			y;
+	int			side;
 	t_vec		len;
 	t_vec		delta;
 	t_vec		inc;
@@ -27,10 +37,12 @@ void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 	delta.y = fabs(1.0 / dir.y);
 	inc.x = (dir.x < 0) ? -1 : 1;
 	inc.y = (dir.y < 0) ? -1 : 1;
-	len.x = delta.x * ((dir.x < 0) ? wolf->player->pos.x - x : 1.0 + x - wolf->player->pos.x);
-	len.y = delta.y * ((dir.y < 0) ? wolf->player->pos.y - y : 1.0 + y - wolf->player->pos.y);
+	len.x = delta.x * ((dir.x < 0) ?
+			wolf->player->pos.x - x : 1.0 + x - wolf->player->pos.x);
+	len.y = delta.y * ((dir.y < 0) ?
+			wolf->player->pos.y - y : 1.0 + y - wolf->player->pos.y);
 	while (wolf->map->map[y][x] != 'X')
-	{ 
+	{
 		if (len.x < len.y)
 		{
 			len.x += delta.x;
@@ -48,6 +60,7 @@ void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 		dist = (x - wolf->player->pos.x + (1 - inc.x) / 2) / dir.x;
 	else
 		dist = (y - wolf->player->pos.y + (1 - inc.y) / 2) / dir.y;
+
 	wall_height = WIN_LEN / dist;
 	line_y = (WIN_LEN - wall_height) / 2;
 	line_y = (line_y < 0) ? 0 : line_y;
@@ -57,15 +70,18 @@ void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 		{
 			double	text_x;
 			int		text_y;
-			
-			text_x = ((side) ? wolf->player->pos.x + dist * dir.x : wolf->player->pos.y + dist * dir.y);
-			//if (side)
-			//	printf("%d, %f, %f, %f\n", x, dist, dir.x, text_x);
+
+			text_x = ((side) ? wolf->player->pos.x + dist * dir.x
+					: wolf->player->pos.y + dist * dir.y);
 			text_x = (int)((text_x - floor(text_x)) * wolf->text->wid);
-			text_x = (!side && dir.x > 0) ? wolf->text->wid - text_x - 1 : text_x;
-			text_x = (side && dir.y < 0) ? wolf->text->wid - text_x - 1 : text_x;
-			text_y = (int)(((double)line_y - (WIN_LEN - wall_height) / 2) / wall_height * wolf->text->len);
-			color = *(int *)(wolf->text->data_addr + (((int)text_x + text_y * wolf->text->wid) * wolf->text->bpp));
+			text_x = (!side && dir.x > 0) ?
+					wolf->text->wid - text_x - 1 : text_x;
+			text_x = (side && dir.y < 0) ?
+					wolf->text->wid - text_x - 1 : text_x;
+			text_y = (int)(((double)line_y -
+					(WIN_LEN - wall_height) / 2) / wall_height * wolf->text->len);
+			color = *(int *)(wolf->text->data_addr +
+					(((int)text_x + text_y * wolf->text->wid) * wolf->text->bpp));
 			if (side)
 			{
 				color = color - (color % 256) / 2;
@@ -99,22 +115,22 @@ void			draw(t_wolf *wolf)
 	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img->ptr, 0, 0);
 }
 
-/*void			render(t_fdf *fdf)
+void			render(t_wolf *wolf)
 {
 	t_thread	list[THREADS];
-	int		i;
+	int			i;
 
 	i = 0;
 	while (i < THREADS)
 	{
 		list[i].i = i;
-		list[i].fdf = fdf;
-		pthread_create(&(list[i]).tid, NULL, draw, &list[i]);
+		list[i].wolf = wolf;
+		//pthread_create(&(list[i]).tid, NULL, draw, &list[i]);
 		i++;
 	}
 	i = 0;
 	while (i < THREADS)
 		pthread_join(list[i++].tid, NULL);
-	mlx_clear_window(fdf->mlx, fdf->win);
-	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img->ptr, 0, 0);
-}*/
+	mlx_clear_window(wolf->mlx, wolf->win);
+	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img->ptr, 0, 0);
+}

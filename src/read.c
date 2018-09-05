@@ -6,13 +6,13 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:51:22 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/04 18:51:22 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/04 20:12:33 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <wolf3d.h>
 
-void		free_map(t_map *map)
+void	free_map(t_map *map)
 {
 	int		i;
 
@@ -27,7 +27,7 @@ void		free_map(t_map *map)
 int		init_map(t_wolf *wolf, char *filename)
 {
 	int		fd;
-	char		*line;
+	char	*line;
 
 	wolf->map->len = 0;
 	wolf->map->wid = 0;
@@ -48,12 +48,34 @@ int		init_map(t_wolf *wolf, char *filename)
 	return (1);
 }
 
+int		handle_objs(t_wolf *wolf, char *l, int y)
+{
+	char	*tmp;
+
+	if ((tmp = ft_strstr(l, "S")))
+	{
+		if (wolf->player)
+			return (-1);
+		wolf->player =
+			init_player((float)(ft_strstr(l, "S") - l), (float)y);
+		*tmp = ' ';
+	}
+	if ((tmp = ft_strstr(l, "E")))
+	{
+		if (wolf->map->exit.x != -1 || wolf->map->exit.y != -1)
+			return (-1);
+		wolf->map->exit.x = (float)(ft_strstr(l, "S") - l);
+		wolf->map->exit.y = (float)y;
+		*tmp = ' ';
+	}
+	return (1);
+}
+
 int		load_map(char *filename, t_wolf *wolf)
 {
 	int		y;
 	int		fd;
-	char		*l;
-	char		*tmp;
+	char	*l;
 
 	if (!(wolf->map = (t_map *)malloc(sizeof(t_map))))
 		return (-1);
@@ -66,20 +88,8 @@ int		load_map(char *filename, t_wolf *wolf)
 	y = 0;
 	while (get_next_line(fd, &l) > 0)
 	{
-		if ((tmp = ft_strstr(l, "S")))
-		{
-			if (wolf->player)
-				return (-1);
-			wolf->player = init_player((float)(ft_strstr(l,"S") - l), (float)y);
-			*tmp = ' ';
-		}
-		if (ft_strstr(l, "E"))
-		{
-			if (wolf->map->exit.x != -1 || wolf->map->exit.y != -1)
-				return (-1);
-			wolf->map->exit.x = (float)(ft_strstr(l,"S") - l);
-			wolf->map->exit.y = (float)y;
-		}
+		if (handle_objs(wolf, l, y) == -1)
+			return (-1);
 		wolf->map->map[y++] = l;
 	}
 	if (wolf->map->exit.x == -1 || wolf->map->exit.y == -1)
