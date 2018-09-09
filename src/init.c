@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:03:37 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/04 20:09:41 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 03:00:40 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_wolf		*init_wolf(int ac, char **av)
 		return (0);
 	if (!(wolf->img = init_img(wolf->mlx)))
 		return (0);
-	if (!(wolf->text = init_xpm_img(wolf->mlx, "./textures/smooth.xpm")))
+	if (!load_textures(wolf))
 		return (0);
 	wolf->player = 0;
 	wolf->current_level = 0;

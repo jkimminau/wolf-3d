@@ -6,11 +6,13 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 20:12:37 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/05 00:54:35 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 02:20:23 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <wolf3d.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void			img_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -56,4 +58,6 @@ void			render(t_wolf *wolf)
 		pthread_join(list[i++].tid, NULL);
 	mlx_clear_window(wolf->mlx, wolf->win);
 	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img->ptr, 0, 0);
+	if (sqrt(pow(wolf->player->pos.x - wolf->map->exit.x - 0.5, 2) + pow(wolf->player->pos.y - wolf->map->exit.y - 0.5, 2)) < 1.5)
+		mlx_string_put(wolf->mlx, wolf->win, WIN_WID / 2, WIN_LEN / 2, 0xFFFFFF, "Press (X) to continue to the next level");
 }

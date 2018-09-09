@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 23:02:16 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/04 23:46:05 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 03:13:15 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,21 @@ t_ray			init_ray(t_wolf *wolf, t_vec dir)
 	return (ray);
 }
 
+void			get_text(t_wolf *wolf, t_ray *ray)
+{
+	if (wolf->map->map[ray->y][ray->x] == 'D' || wolf->map->map[ray->y][ray->x] == 'E')
+		ray->text = wolf->text[0];
+	if (wolf->map->map[ray->y][ray->x] == 'X')
+		ray->text = wolf->text[2];
+	if (wolf->map->map[ray->y][ray->x] == 'R')
+		ray->text = wolf->text[3];
+	if (wolf->map->map[ray->y][ray->x] == 'O')
+		ray->text = wolf->text[4];
+}
+
 void			fire(t_wolf *wolf, t_ray *ray, t_vec dir)
 {
-	while (wolf->map->map[ray->y][ray->x] != 'X')
+	while (wolf->map->map[ray->y][ray->x] == ' ')
 	{
 		ray->side = !(ray->len.x < ray->len.y);
 		if (ray->len.x < ray->len.y)
@@ -45,6 +57,7 @@ void			fire(t_wolf *wolf, t_ray *ray, t_vec dir)
 			ray->y += ray->inc.y;
 		}
 	}
+	get_text(wolf, ray);
 	if (!ray->side)
 		ray->dist = (ray->x - wolf->player->pos.x
 			+ (1 - ray->inc.x) / 2) / dir.x;
@@ -61,15 +74,15 @@ int				get_wall_color(t_wolf *wolf, t_ray ray, t_vec dir, int y)
 
 	text_x = ((ray.side) ? wolf->player->pos.x + ray.dist * dir.x
 			: wolf->player->pos.y + ray.dist * dir.y);
-	text_x = (int)((text_x - floor(text_x)) * wolf->text->wid);
+	text_x = (int)((text_x - floor(text_x)) * ray.text->wid);
 	text_x = (!ray.side && dir.x > 0) ?
-			wolf->text->wid - text_x - 1 : text_x;
+			ray.text->wid - text_x - 1 : text_x;
 	text_x = (ray.side && dir.y < 0) ?
-			wolf->text->wid - text_x - 1 : text_x;
+			ray.text->wid - text_x - 1 : text_x;
 	text_y = (int)(((double)y - (WIN_LEN - ray.wall_height) / 2)
-			/ ray.wall_height * wolf->text->len);
-	color = *(int *)(wolf->text->data_addr +
-			(((int)text_x + text_y * wolf->text->wid) * wolf->text->bpp));
+			/ ray.wall_height * ray.text->len);
+	color = *(int *)(ray.text->data_addr +
+			(((int)text_x + text_y * ray.text->wid) * ray.text->bpp));
 	if (ray.side)
 	{
 		color = color - (color % 256) / 2;

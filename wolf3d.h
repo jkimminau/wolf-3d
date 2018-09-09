@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:34:04 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/05 00:58:01 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 03:10:41 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define KEY_A 0
 # define KEY_S 1
 # define KEY_D 2
+# define KEY_X 7
 # define ROT_SPEED 3 * M_PI / 180
 
 # include <stdlib.h>
@@ -66,6 +67,7 @@ typedef struct		s_ray
 	t_vec			inc;
 	double			dist;
 	int				wall_height;
+	t_img			*text;
 }					t_ray;
 
 typedef struct		s_map
@@ -88,7 +90,7 @@ typedef struct		s_wolf
 	void			*mlx;
 	void			*win;
 	t_img			*img;
-	t_img			*text;
+	t_img			*text[5];
 	t_map			*map;
 	int				current_level;
 	int				max_levels;
@@ -105,13 +107,17 @@ typedef struct		s_thread
 
 void				free_all(t_wolf *wolf);
 t_img				*init_img(void *mlx);
+t_img				*init_xpm_img(void *mlx, char *filename);
 t_player			*init_player(float x, float y);
 t_wolf				*init_wolf(int ac, char **av);
 void				free_map(t_map *map);
 int					init_map(t_wolf *wolf, char *filename);
 int					load_map(char *filename, t_wolf *wolf);
+int					load_textures(t_wolf *wolf);
 void				move(int d, t_wolf *wolf);
 void				rotate(int d, t_wolf *wolf);
+int					check_exit(t_wolf *wolf);
+void				next_level(t_wolf *wolf);
 int					handle_exit(t_wolf *wolf);
 int					handle_keys(int key, t_wolf *wolf);
 void				img_pixel_put(t_img *img, int x, int y, int color);

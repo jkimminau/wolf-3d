@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:15:23 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/05 00:52:52 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 03:15:56 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,8 @@ int		handle_keys(int key, t_wolf *wolf)
 		move((key == KEY_UP || key == KEY_W) ? 1 : -1, wolf);
 	else if (key == KEY_RIGHT || key == KEY_LEFT)
 		rotate((key == KEY_RIGHT) ? 1 : -1, wolf);
-	if (0)
-	{
-		wolf->current_level++;
-		if (wolf->current_level > wolf->max_levels)
-			handle_exit(wolf);
-		free_map(wolf->map);
-		free(wolf->player);
-		load_map(wolf->levels[wolf->current_level], wolf);
-	}
+	if (check_exit(wolf) && key == KEY_X)
+		next_level(wolf);
 	mlx_destroy_image(wolf->mlx, wolf->img->ptr);
 	free(wolf->img);
 	wolf->img = init_img(wolf->mlx);
