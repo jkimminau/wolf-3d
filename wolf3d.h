@@ -76,6 +76,7 @@ typedef struct		s_map
 	int				wid;
 	int				len;
 	t_vec			exit;
+	t_vec			gen;
 }					t_map;
 
 typedef struct		s_player
@@ -90,7 +91,7 @@ typedef struct		s_wolf
 	void			*mlx;
 	void			*win;
 	t_img			*img;
-	t_img			*text[5];
+	t_img			*text[7];
 	t_map			*map;
 	int				current_level;
 	int				max_levels;
@@ -116,7 +117,6 @@ int					load_map(char *filename, t_wolf *wolf);
 int					load_textures(t_wolf *wolf);
 void				move(int d, t_wolf *wolf);
 void				rotate(int d, t_wolf *wolf);
-int					check_exit(t_wolf *wolf);
 void				next_level(t_wolf *wolf);
 int					handle_exit(t_wolf *wolf);
 int					handle_keys(int key, t_wolf *wolf);
@@ -124,5 +124,8 @@ void				img_pixel_put(t_img *img, int x, int y, int color);
 void				draw_ray(t_wolf *wolf, t_vec dir, int wx);
 void				*draw_thread(void *arg);
 void				render(t_wolf *wolf);
+int					check_exit(t_wolf *wolf);
+int					check_gen(t_wolf *wolf);
+void					activate_gen(t_wolf *wolf);
 
 #endif

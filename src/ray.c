@@ -39,6 +39,10 @@ void			get_text(t_wolf *wolf, t_ray *ray)
 		ray->text = wolf->text[3];
 	if (wolf->map->map[ray->y][ray->x] == 'O')
 		ray->text = wolf->text[4];
+	if (wolf->map->map[ray->y][ray->x] == '1')
+		ray->text = wolf->text[5];
+	if (wolf->map->map[ray->y][ray->x] == '2')
+		ray->text = wolf->text[6];
 }
 
 void			fire(t_wolf *wolf, t_ray *ray, t_vec dir)
@@ -107,7 +111,7 @@ void			draw_ray(t_wolf *wolf, t_vec dir, int wx)
 		if (y < (ray.wall_height + WIN_LEN) / 2)
 			img_pixel_put(wolf->img, wx, y, get_wall_color(wolf, ray, dir, y));
 		else
-			img_pixel_put(wolf->img, wx, y, 0xd86c45);
+			img_pixel_put(wolf->img, wx, y, 0x777777);
 		y++;
 	}
 }

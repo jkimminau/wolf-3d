@@ -23,6 +23,7 @@ SRC =		src/wolf3d.c	\
 			src/ray.c		\
 			src/draw.c		\
 			src/player.c	\
+			src/obj.c	\
 
 HEADER_DIR =	.			\
 

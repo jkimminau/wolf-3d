@@ -33,11 +33,13 @@ int		handle_keys(int key, t_wolf *wolf)
 		move((key == KEY_UP || key == KEY_W) ? 1 : -1, wolf);
 	else if (key == KEY_RIGHT || key == KEY_LEFT)
 		rotate((key == KEY_RIGHT) ? 1 : -1, wolf);
-	if (check_exit(wolf) && key == KEY_X)
-		next_level(wolf);
 	mlx_destroy_image(wolf->mlx, wolf->img->ptr);
 	free(wolf->img);
 	wolf->img = init_img(wolf->mlx);
 	render(wolf);
+	if (check_exit(wolf) && key == KEY_X)
+		next_level(wolf);
+	if (check_gen(wolf) && key == KEY_X)
+		activate_gen(wolf);
 	return (0);
 }

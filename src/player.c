@@ -54,16 +54,6 @@ void	rotate(int d, t_wolf *wolf)
 		sin(ROT_SPEED * d) + old.y * cos(ROT_SPEED * d);
 }
 
-int		check_exit(t_wolf *wolf)
-{
-	if (sqrt(pow(wolf->player->pos.x - wolf->map->exit.x - 0.5, 2) + pow(wolf->player->pos.y - wolf->map->exit.y - 0.5, 2)) < 1.5)
-	{
-		mlx_string_put(wolf->mlx, wolf->win, WIN_WID / 2, WIN_LEN / 2, 0xFFFFFF, "Press (X) to continue to the next level");
-		return (1);
-	}
-	return (0);
-}
-
 void	next_level(t_wolf *wolf)
 {
 	int		i;

@@ -33,6 +33,8 @@ int		init_map(t_wolf *wolf, char *filename)
 	wolf->map->wid = 0;
 	wolf->map->exit.x = -1;
 	wolf->map->exit.y = -1;
+	wolf->map->gen.x = -1;
+	wolf->map->gen.y = -1;
 	if ((fd = open(filename, O_RDONLY)) == -1)
 		return (-1);
 	while (get_next_line(fd, &line) > 0)
@@ -66,6 +68,13 @@ int		handle_objs(t_wolf *wolf, char *l, int y)
 			return (-1);
 		wolf->map->exit.x = (float)(ft_strstr(l, "E") - l);
 		wolf->map->exit.y = (float)y;
+	}
+	if ((tmp = ft_strstr(l, "1")))
+	{
+		if (wolf->map->gen.x != -1 || wolf->map->gen.y != -1)
+			return (-1);
+		wolf->map->gen.x = (float)(ft_strstr(l, "1") - l);
+		wolf->map->gen.y = (float)y;
 	}
 	return (1);
 }
@@ -110,6 +119,10 @@ int		load_textures(t_wolf *wolf)
 	if (!(wolf->text[3] = init_xpm_img(wolf->mlx, "./textures/rock.xpm")))
 		return (0);
 	if (!(wolf->text[4] = init_xpm_img(wolf->mlx, "./textures/smooth.xpm")))
+		return (0);
+	if (!(wolf->text[5] = init_xpm_img(wolf->mlx, "./textures/switch1.xpm")))
+		return (0);
+	if (!(wolf->text[6] = init_xpm_img(wolf->mlx, "./textures/switch2.xpm")))
 		return (0);
 	return (1);
 }

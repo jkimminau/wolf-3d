@@ -58,6 +58,4 @@ void			render(t_wolf *wolf)
 		pthread_join(list[i++].tid, NULL);
 	mlx_clear_window(wolf->mlx, wolf->win);
 	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img->ptr, 0, 0);
-	if (sqrt(pow(wolf->player->pos.x - wolf->map->exit.x - 0.5, 2) + pow(wolf->player->pos.y - wolf->map->exit.y - 0.5, 2)) < 1.5)
-		mlx_string_put(wolf->mlx, wolf->win, WIN_WID / 2, WIN_LEN / 2, 0xFFFFFF, "Press (X) to continue to the next level");
 }

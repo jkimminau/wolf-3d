@@ -1,12 +1,12 @@
 RRRRRRRXXXXXXXXRRROOOOOOOOOOOOOOOO
 R      X      X  R               O
 R      X      X  R               O
-R      XXX  XXX  R               O
+R      XXX  XXX  R       1       O
 R                R               O
 R                R               O
 R                R               O
 R                                O
-R   S                        E   O
+R   S                            O
 R                                O
 R                R               O
 R                R               O
@@ -14,4 +14,4 @@ R                R               O
 R                R               O
 R                R               O
 R                R               O
-RRRRRRRRRRRRRRRRRROOOOOOOOODOOOOOO
+RRRRRRRRRRRRRRRRRROOOOOOOOOEOOOOOO
