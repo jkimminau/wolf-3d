@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:48:13 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/09 03:16:08 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 18:43:59 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,43 @@ void	rotate(int d, t_wolf *wolf)
 
 void	next_level(t_wolf *wolf)
 {
-	int		i;
-
-	i = 0;
-	while (i < wolf->map->len)
-		free(wolf->map->map[i++]);
-	free(wolf->map->map);
-	free(wolf->map);
+	free_map(wolf->map);
 	free(wolf->player);
 	wolf->player = 0;
 	if (++wolf->current_level == wolf->max_levels)
 		exit(EXIT_SUCCESS);
+	mlx_clear_window(wolf->mlx, wolf->win);
+	mlx_string_put(wolf->mlx, wolf->win, WIN_WID / 2,
+			WIN_LEN / 2, 0xFFFFFF, "Loading. . .");
 	if (load_map(wolf->levels[wolf->current_level], wolf) == -1)
 	{
 		ft_printf("failed to load map\n");
 		exit(EXIT_FAILURE);
 	}
+	render(wolf);
+}
+
+void	minimap(t_wolf *wolf)
+{
+	int		y;
+	int		x;
+
+	y = 0;
+	while (y < wolf->map->len)
+	{
+		x = 0;
+		while (x < wolf->map->wid)
+		{
+			if (ft_strchr("12", wolf->map->map[y][x]))
+				img_pixel_put(wolf->img, x * 7 + 10, y * 7 + 10, 0xEF09E0);
+			else if (wolf->map->map[y][x] == 'E')
+				img_pixel_put(wolf->img, x * 7 + 10, y * 7 + 10, 0xFF0000);
+			else if (wolf->map->map[y][x] != ' ')
+				img_pixel_put(wolf->img, x * 7 + 10, y * 7 + 10, 0xFFFFFF);
+			x++;
+		}
+		y++;
+	}
+	img_pixel_put(wolf->img, wolf->player->pos.x * 7 + 10,
+			wolf->player->pos.y * 7 + 10, 0xFF00);
 }

@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 18:34:04 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/09 03:10:41 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 18:43:47 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ int					load_textures(t_wolf *wolf);
 void				move(int d, t_wolf *wolf);
 void				rotate(int d, t_wolf *wolf);
 void				next_level(t_wolf *wolf);
+void				minimap(t_wolf *wolf);
 int					handle_exit(t_wolf *wolf);
 int					handle_keys(int key, t_wolf *wolf);
 void				img_pixel_put(t_img *img, int x, int y, int color);
@@ -126,6 +127,6 @@ void				*draw_thread(void *arg);
 void				render(t_wolf *wolf);
 int					check_exit(t_wolf *wolf);
 int					check_gen(t_wolf *wolf);
-void					activate_gen(t_wolf *wolf);
+void				activate_gen(t_wolf *wolf);
 
 #endif

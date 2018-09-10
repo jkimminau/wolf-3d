@@ -6,13 +6,11 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 20:12:37 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/09 02:20:23 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 18:43:51 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <wolf3d.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 void			img_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -45,6 +43,9 @@ void			render(t_wolf *wolf)
 	t_thread	list[THREADS];
 	int			i;
 
+	mlx_destroy_image(wolf->mlx, wolf->img->ptr);
+	free(wolf->img);
+	wolf->img = init_img(wolf->mlx);
 	i = 0;
 	while (i < THREADS)
 	{
@@ -56,6 +57,7 @@ void			render(t_wolf *wolf)
 	i = 0;
 	while (i < THREADS)
 		pthread_join(list[i++].tid, NULL);
+	minimap(wolf);
 	mlx_clear_window(wolf->mlx, wolf->win);
 	mlx_put_image_to_window(wolf->mlx, wolf->win, wolf->img->ptr, 0, 0);
 }

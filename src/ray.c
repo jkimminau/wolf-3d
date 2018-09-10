@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/04 23:02:16 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/09 03:13:15 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 20:13:04 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,16 @@ t_ray			init_ray(t_wolf *wolf, t_vec dir)
 
 void			get_text(t_wolf *wolf, t_ray *ray)
 {
-	if (wolf->map->map[ray->y][ray->x] == 'D' || wolf->map->map[ray->y][ray->x] == 'E')
-		ray->text = wolf->text[0];
+	ray->text = wolf->text[0];
+	if (wolf->map->map[ray->y][ray->x] == 'F')
+		ray->text = wolf->text[1];
 	if (wolf->map->map[ray->y][ray->x] == 'X')
 		ray->text = wolf->text[2];
 	if (wolf->map->map[ray->y][ray->x] == 'R')
 		ray->text = wolf->text[3];
 	if (wolf->map->map[ray->y][ray->x] == 'O')
 		ray->text = wolf->text[4];
-	if (wolf->map->map[ray->y][ray->x] == '1')
+	if (ft_strchr("01", wolf->map->map[ray->y][ray->x]))
 		ray->text = wolf->text[5];
 	if (wolf->map->map[ray->y][ray->x] == '2')
 		ray->text = wolf->text[6];

@@ -6,7 +6,7 @@
 /*   By: jkimmina <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/31 01:03:37 by jkimmina          #+#    #+#             */
-/*   Updated: 2018/09/09 03:00:40 by jkimmina         ###   ########.fr       */
+/*   Updated: 2018/09/09 18:43:53 by jkimmina         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 void		free_all(t_wolf *wolf)
 {
+	int		i;
+
+	i = 0;
+	while (i < 7)
+	{
+		mlx_destroy_image(wolf->mlx, wolf->text[i]->ptr);
+		free(wolf->text[i++]);
+	}
+	free_map(wolf->map);
+	free(wolf->player);
 	mlx_destroy_window(wolf->mlx, wolf->win);
 	mlx_destroy_image(wolf->mlx, wolf->img->ptr);
 	free(wolf->img);
